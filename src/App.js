@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* <DragDropComp /> */}
+      {/* <h2>Sortable List</h2>
+      <SortableList items={createList(20)} />
+
+      <h2>Sortable Table</h2>
+      <SortableTable
+        columns={[
+          { title: "th1", dataIndex: "th1" },
+          { title: "th2", dataIndex: "th2" },
+        ]}
+        dataSource={[
+          { id: 1, th1: "th1", th2: "th2" },
+          { id: 2, th1: "th1", th2: "th2" },
+        ]}
+      />
+
+      <h2>ReactDnd List</h2>
+      <ReactDndList items={createList(20)} />
+
+      <h2>DndKit List</h2>
+      <DndKitList /> */}
     </div>
   );
 }

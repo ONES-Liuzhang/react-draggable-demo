@@ -1,0 +1,51 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+  height: 400px;
+  overflow: auto;
+}
+
+li {
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  cursor: move;
+}
+
+li:hover {
+  background-color: #ccc;
+}
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid black;
+}
+
+th {
+  background-color: #ccc;
+}
+
+td {
+  background-color: #fff;
+}
+
+// sortable
+.sortable-wrapper {
+  width: 100%;
+}
+
+// dnd
+.draggable-list {
+  width: 100%;
+}
