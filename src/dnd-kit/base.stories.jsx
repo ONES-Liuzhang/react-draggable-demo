@@ -1,5 +1,5 @@
 import React from "react";
-import { DndContext, useDraggable, useDroppable, useSensor, MouseSensor } from "@dnd-kit/core";
+import { DndContext, useDraggable, useDroppable, useSensor, MouseSensor, DragOverlay } from "@dnd-kit/core";
 
 export default {
   title: "DndKit",
@@ -33,14 +33,14 @@ function Draggable(props) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id,
   });
-  const style = transform
-    ? {
-        transform: `translate3d(0px, ${transform.y}px, 0)`,
-      }
-    : undefined;
+  // const style = transform
+  //   ? {
+  //       transform: `translate3d(0px, ${transform.y}px, 0)`,
+  //     }
+  //   : undefined;
 
   return (
-    <li ref={setNodeRef} style={{ ...style }} {...listeners} {...attributes}>
+    <li ref={setNodeRef}  {...listeners} {...attributes}>
       {props.children}
     </li>
   );
@@ -73,6 +73,7 @@ function Template() {
           <Draggable id="3">啊啊啊啊啊</Draggable>
         </Droppable>
       </ul>
+      <DragOverlay>aaaaa</DragOverlay>
     </DropDragContext>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { DndContext, useDraggable, useDroppable, useSensor, MouseSensor } from "@dnd-kit/core";
+import { DndContext, useDroppable, useSensors, MouseSensor, useSensor } from "@dnd-kit/core";
 import { useSortable, SortableContext } from "@dnd-kit/sortable";
 
 export default {
@@ -7,38 +7,45 @@ export default {
   component: Template,
 };
 
+/**
+ * useSortable 可以取代 useDraggable
+ *
+ * useSortable 外部必须使用 SortableContext 进行包裹
+ *
+ * @param {*} props
+ * @returns
+ */
 function SortableItem(props) {
   const { children, id } = props;
 
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
+  const sortableInfo = useSortable({ id });
+
+  console.log("sortableInfo", sortableInfo);
+
+  const { attributes, listeners, setNodeRef, transform, transition } = sortableInfo;
 
   const style = {
-    transform: CSS.Transform.toString(transform),
+    // transform: CSS.Transform.toString(transform),
     transition,
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      {children}
-    </div>
+    <li ref={setNodeRef} style={style}>
+      <span {...attributes} {...listeners}>
+        {children}
+      </span>
+    </li>
   );
 }
 
 function DropDragContext(props) {
-  const { children, ...args } = props;
-
-  const [items] = React.useState([1, 2, 3]);
+  const { children, items, ...args } = props;
 
   // 可以配置传感器
-  const mouseSensor = useSensor(MouseSensor, {
-    // Require the mouse to move by 10 pixels before activating
-    // activationConstraint: {
-    //   distance: 10,
-    // },
-  });
+  const mouseSensor = useSensors(useSensor(MouseSensor));
 
   return (
-    <DndContext {...args} sensors={[mouseSensor]}>
+    <DndContext {...args} sensors={mouseSensor}>
       <SortableContext items={items} id="sortable-context1">
         {children}
       </SortableContext>
@@ -46,57 +53,16 @@ function DropDragContext(props) {
   );
 }
 
-/**
- * 1. Draggable elements
- * 2. Droppable areas
- */
-function Draggable(props) {
-  const { id } = props;
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id,
-  });
-  const style = transform
-    ? {
-        transform: `translate3d(0px, ${transform.y}px, 0)`,
-      }
-    : undefined;
-
-  return (
-    <li ref={setNodeRef} style={{ ...style }} {...listeners} {...attributes}>
-      {props.children}
-    </li>
-  );
-}
-
-function Droppable(props) {
-  const { droppableId } = props;
-
-  const { isOver, setNodeRef } = useDroppable({
-    id: droppableId,
-  });
-  const style = {
-    color: isOver ? "green" : undefined,
-  };
-
-  return (
-    <div ref={setNodeRef} style={style}>
-      {props.children}
-    </div>
-  );
-}
-
 function Template() {
+  const [items] = React.useState([1, 2, 3]);
+
   return (
-    <DropDragContext>
-      <ul>
-        <Droppable droppableId="droppable-table">
-          <Draggable id="1">啊啊啊啊啊</Draggable>
-          <Draggable id="2">啊啊啊啊啊</Draggable>
-          <Draggable id="3">啊啊啊啊啊</Draggable>
-        </Droppable>
-      </ul>
+    <DropDragContext items={items}>
+      {items.map((id) => (
+        <SortableItem id={id} key={id} />
+      ))}
     </DropDragContext>
   );
 }
 
-export const Sortable = Template.bind({});
+export const SortableDemo = Template.bind({});
